@@ -1,0 +1,28 @@
+@font-face {
+    font-family: "IndUni-H";
+    src: url(http://prakrit.info/fonts/IndUni-H-Regular.otf);
+}
+@font-face {
+    font-family: "IndUni-H";
+    src: url(http://prakrit.info/fonts/IndUni-H-Bold.otf);
+    font-weight:bold;
+}
+@font-face {
+    font-family: "IndUni-H";
+    src: url(http://prakrit.info/fonts/IndUni-H-Oblique.otf);
+    font-style:italic;
+}
+@font-face {
+    font-family: "IndUni-H";
+    src: url(http://prakrit.info/fonts/IndUni-H-BoldOblique.otf);
+    font-style:italic;
+    font-weight:bold;
+}
+@font-face {
+    font-family: "Lohit Kannada";
+    src: url(http://prakrit.info/fonts/Lohit-Kannada.ttf);
+}
+@font-face {
+    font-family: "Printers Ornaments One";
+    src: url(http://prakrit.info/fonts/printorn.ttf);
+}

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>The Way of the Poet-King</title>
+    <meta charset="utf-8">
+    <meta name="viewport" 
+	  content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="http://prakrit.info/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fonts-kannada.css">
+    <link rel="stylesheet" href="css/krm.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  </head>
+  <body onload="toc()">
+
+    <div class="container">
+
+      <div class="row">
+	<div class="col-sm-12">
+	  <div class="index-container">
+	    <div class="text-center heading">
+	      <h1>The Way of the Poet-King</h1>
+	      <p><i>~ or ~</i></p>
+	      <h1 class="kan-Kann">ಕವಿರಾಜಮಾರ್ಗಂ</h1>
+	    </div>
+
+	    <p class="cover-text">This is the index page for our ongoing edition and translation of Śrīvijaya’s <i>Way of the Poet-King</i> (<i>Kavirājamārgaṁ</i>). Below you will find a <a href="#krm-index-header">table of contents</a> and a <a href="#progress-header">progress update</a>.</p>
+
+	    <p id="excuse-me" class="text-center text-warning">Please wait while the data loads.</p>
+	    
+	    <div class="card">
+	      <div class="card-header" data-toggle="collapse" data-target="#krm-index-card" aria-expanded="true" id="krm-index-header">
+		Table of Contents
+	      </div>
+	      <div class="card-block collapse show" id="krm-index-card">
+		<table class="table table-hover" id="krm-index">
+		  <thead class="thead-default">
+		    <tr>
+ 		      <th>Chapter and Verse</th>
+		      <th>Ms. A</th>
+		      <th>Ms. B</th>
+		      <th>Ms. C</th>
+		      <th>Edition</th>
+		      <th>Apparatus</th>
+		      <th>Translation</th>
+		      <th>Notes</th>
+		    </tr>
+		  </thead>
+		  <tbody id="krm-index-body">
+		  </tbody>
+		</table>
+	      </div>
+	    </div>
+
+	    <div class="card">
+	      <div class="card-header" data-toggle="collapse" data-target="#progress-card" aria-expanded="true" id="progress-header">
+		Progress
+	      </div>
+	      <div class="card-block collapse show" id="progress-card">
+		<div class="progress-block">
+		  <h3>Manuscript A (Kuvempu Institute K125)</h3>
+		  <div class="progress text-right" id="progress-a"></div>
+		</div>
+		<div class="progress-block">
+		  <h3>Manuscript B (Kuvempu Institute K110)</h3>
+		  <div class="progress" id="progress-b"></div>
+		</div>
+		<div class="progress-block">
+		  <h3>Manuscript C (GOML K1250)</h3>
+		  <div class="progress" id="progress-c"></div>
+		</div>
+		<div class="progress-block">
+		  <h3>Edition</h3>
+		  <div class="progress" id="progress-ed"></div>
+		</div>
+		<div class="progress-block">
+		  <h3>Apparatus</h3>
+		  <div class="progress" id="progress-app"></div>
+		</div>
+		<div class="progress-block">
+		  <h3>Translation</h3>
+		  <div class="progress" id="progress-tr"></div>
+		</div>
+		<div class="progress-block">
+		  <h3>Notes</h3>
+		  <div class="progress" id="progress-notes"></div>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	    
+
+	<svg height="0" xmlns="http://www.w3.org/2000/svg">
+	  <filter id="drop-shadow">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+            <feOffset dx="5" dy="5" result="offsetblur"/>
+            <feFlood flood-color="rgba(0,0,0,0.3)"/>
+            <feComposite in2="offsetblur" operator="in"/>
+            <feMerge>
+              <feMergeNode/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+	  </filter>
+	</svg>
+      </div>
+      <div class="text-right footer">
+	<a href="https://www.neh.gov">
+	  <img src="https://www.neh.gov/files/neh_logo_horizontal_rgb.jpg"/>
+	</a>
+      </div>
+      
+    </div><!-- container !-->
+
+    <script src="http://prakrit.info/scripts/tether.min.js"></script>
+    <script src="http://prakrit.info/scripts/jquery-3.2.1.min.js"></script>
+    <script src="http://prakrit.info/scripts/bootstrap.min.js"></script>
+    <script src="http://prakrit.info/scripts/sanscript.js"/></script> 
+    <script src="scripts/krm.js"></script>
+</body>
+</html>
