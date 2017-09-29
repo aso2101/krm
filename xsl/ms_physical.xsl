@@ -30,6 +30,12 @@
       <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>
+  <xsl:template match="tei:label[@type='line-number']">
+    <xsl:element name="span">
+      <xsl:attribute name="class">label-line-number</xsl:attribute>
+      <xsl:apply-templates/>
+    </xsl:element>
+  </xsl:template>
   <xsl:template match="tei:lb[not(parent::tei:add)]">
     <xsl:element name="br"/>
     <xsl:element name="span">
@@ -42,6 +48,7 @@
   <xsl:template match="tei:add/tei:lb">
     <xsl:element name="br"/>
   </xsl:template>
+  <xsl:template match="tei:note"/>
   <xsl:template match="tei:pb">
     <xsl:element name="span">
       <xsl:attribute name="class">

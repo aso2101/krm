@@ -18,7 +18,9 @@ body {
 .translation .lg {
   margin:0;
 }
-
+#horizontal-line { 
+  border-bottom: 1px solid #ddd;
+}
 /* For the manuscript sections */
 .foliation,.lineation{color:gray;}
 .foliation:before,.lineation:before{content:"[";}
@@ -74,6 +76,9 @@ body {
   content:"◯";
   padding:0 4px;
 }
+.label-line-number {
+  padding-right:0.5em;
+}
 .space:after {
   content:"\00a0\00a0\00a0";
 }
@@ -97,9 +102,6 @@ body {
 }
 .lg {
   margin-left:10px;
-}
-.ms-pane {
-  margin:15px;
 }
 .apparatus, .translation {
   margin:20px 10px 10px 10px;

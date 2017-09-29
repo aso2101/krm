@@ -155,8 +155,8 @@ function load_edition(chapter,verse) {
 	var thisVerseTranslit = $(q).find("div[n='"+chapter+"']").find("lg[n='"+verse+"']"),
 	    thisVerseKannada = $(r).find("div[n='"+chapter+"']").find("lg[n='"+verse+"']");
 	/* build the navigation elements */
-	var prev = $(thisVerseTranslit).prev("lg,trailer").attr("n")
-	var next = $(thisVerseTranslit).next("lg,trailer").attr("n")
+	var prev = $(thisVerseTranslit).prev("lg,trailer").attr("n");
+	var next = $(thisVerseTranslit).next("lg,trailer").attr("n");
 	if (prev != null) {
 	    var q = $('<a class="btn btn-primary btn-sm" href="view.html?c='+chapter+'&v='+prev+'" role="button"><span class="fa fa-chevron-left" style="font-size:18px;vertical-align:middle;line-height:1.5em;"></span><br/><span class="nav-label">'+prev+'</span></a></div>');
 	    $("#back-nav").append(q);
@@ -207,45 +207,72 @@ function load_manuscripts(chapter,verse,wit) {
 	physical = 'xsl/ms_physical.xsl';
     $.when($.get(a),$.get(logical),$.get(physical)).done(function(a,logical,physical) {
 	console.log("trying "+chapter+"."+verse+", witness "+wit);
-	var thisVerse = $(a).find("div[n='"+chapter+"']").find("lg[n='"+verse+"']");
-	console.log(thisVerse);
-	var content = transformXSLT(thisVerse[0],physical[0]),
-	    contentL = transformXSLT(thisVerse[0],logical[0]),
-	    folio = 'folio ',
-	    separator = '',
-	    line = '';
-	if ($(thisVerse).prev().find("pb").last().attr("n")) {
-	    folio += $(thisVerse).prev().find("pb").last().attr("n"); 
-	    console.log("case 1");
-	} else if ($(thisVerse).parent().find("pb").attr("n")) {
-	    folio += $(thisVerse).parent().find("pb").attr("n");
-	    console.log("case 2");
+	var thisVerse = $(a).find("div[n='"+chapter+"']").find("lg[n='"+verse+"'],trailer");
+	// if the manuscript does transmit the section of text
+	if ($(thisVerse).find("l").length) {
+	    var content = transformXSLT(thisVerse[0],physical[0]),
+		contentL = transformXSLT(thisVerse[0],logical[0]),
+		folio = '',
+		separator = '',
+		line = '';
+	    // if a preceding sibling has a foliation element
+	    if ($(thisVerse).prev().find("pb").last().attr("n")) {
+		folio += "folio " +$(thisVerse).prev().find("pb").last().attr("n"); 
+	    // if the parent of the current verse has a foliation element
+	    } else if ($(thisVerse).parent().find("pb").attr("n")) {
+		folio += "folio " + $(thisVerse).parent().find("pb").attr("n");
+	    // if the parent of the parent of the current verse...
+	    } else if ($(thisVerse).parent().parent().find("pb").attr("n")) {
+		folio += "folio " + $(thisVerse).parent().parent().find("pb").attr("n");
+	    } else {
+		folio += "[No folio number available.]";
+	    }
+	    if (folio != '') {
+		separator = " – "
+	    }
+	    // if a preceding sibling has a lineation element
+	    if ($(thisVerse).prev().find("lb").attr("n")) {
+		line += "line ";
+		line += $(thisVerse).prev().find("lb").attr("n"); 
+		line += ":";
+	    // if the sibling's parent (the chapter div) has a lineation
+	    } else if ($(thisVerse).parent().find("lb").attr("n")) {
+		line += "line "
+		line += $(thisVerse).parent().find("lb").attr("n");
+		line += ":";
+	    // get a lineation anywhere in the text
+	    } else if ($(thisVerse).parent().parent().find("lb").attr("n")) {
+		line += "line "
+		line += $(thisVerse).parent().parent().find("lb").attr("n");
+		line += ":";
+	    } else {
+		line += "[No line number available.]";
+	    }
+	    var logicalWrapper = $('<div class="ms-logical-content" id="ms-'+wit+'-logical-content"></div>'),
+		physicalWrapper = $('<div class="ms-physical-content" id="ms-'+wit+'-physical-content"></div>'),
+		lineation = $('<div><p>'+folio+separator+line+'</p></div>');
+	    logicalWrapper.append(contentL);
+	    physicalWrapper.append(content);
+	    $("#ms-"+wit+"-physical").append(lineation.clone());
+	    $("#ms-"+wit+"-physical").append(notes);
+	    if ($(content).length > 0) {
+		$("#ms-"+wit+"-physical").append(physicalWrapper);
+	    }
+	    $("#ms-"+wit+"-logical").append(lineation.clone());
+	    $("#ms-"+wit+"-logical").append(notes);
+	    $("#ms-"+wit+"-logical").append(logicalWrapper);
 	} else {
-	    folio += "[No folio number available.]";
+	// if the manuscript does not transmit the section of text
+	    var warning = $("<span class='text-warning'>This manuscript does not transmit this part of the text.</span>");
+	    $("#ms-"+wit+"-physical").append(warning.clone());
+	    $("#ms-"+wit+"-logical").append(warning.clone());
+	    if ($(thisVerse).find("note").length) {
+		var note = $(thisVerse).find("note"),
+		    notes = $(transformXSLT(note[0],logical[0]));
+		$("#ms-"+wit+"-physical").append(notes.clone());
+		$("#ms-"+wit+"-logical").append(notes.clone());
+	    }
 	}
-	if (folio != '') {
-	    separator = " – "
-	}
-	if ($(thisVerse).prev().find("lb").last().attr("n")) {
-	    line += "line ";
-	    line += $(thisVerse).prev().find("lb").last().attr("n"); 
-	    line += ":";
-	} else if ($(thisVerse).parent().find("lb").last().attr("n")) {
-	    line += "line "
-	    line += $(thisVerse).parent().find("lb").last().attr("n");
-	    line += ":";
-	} else {
-	    line += "[No line number available.]";
-	}
-	var logicalWrapper = $('<div class="ms-logical-content" id="ms-'+wit+'-logical-content"></div>'),
-	    physicalWrapper = $('<div class="ms-physical-content" id="ms-'+wit+'-physical-content"></div>'),
-	    lineation = $('<div><p>'+folio+separator+line+'</p></div>');
-	logicalWrapper.append(contentL);
-	physicalWrapper.append(content);
-	$("#ms-"+wit+"-physical").append(lineation.clone());
-	$("#ms-"+wit+"-physical").append(physicalWrapper);
-	$("#ms-"+wit+"-logical").append(lineation.clone());
-	$("#ms-"+wit+"-logical").append(logicalWrapper);
     });
 };
 
