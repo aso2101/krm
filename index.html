@@ -6,56 +6,102 @@
     <meta name="viewport" 
 	  content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <link rel="stylesheet" href="http://prakrit.info/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/fonts-kannada.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/fonts.css">
+    <link rel="stylesheet" href="../css/kannada.css">
+    <link rel="stylesheet" href="../css/imfell.css">
     <link rel="stylesheet" href="css/krm.css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
   </head>
   <body onload="toc()">
 
+    <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light" id="navbar">
+      <a class="navbar-brand" href="index.html">
+        <img src="../images/paautti.svg"
+	     onerror="this.src='../images/paautti.png'"
+	     width="100px"
+	     alt="prakrit"
+	     id="brand"/>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+	<span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+	<ul class="navbar-nav">
+	  <li class="nav-item">
+	    <a class="nav-link active" href="index.html" id="homelink">Contents</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="javascript:void();" id="homelink">Edition</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="glossary.html" id="glossarylink">Glossary</a>
+	  </li>
+	</ul>
+	<span class="navbar-text" id="vTitle"></span>
+	<!-- script selector !-->
+	<!-- disable here:
+	<div class="form-inline ml-auto">
+	  <div class="btn-group btn-group-sm ml-auto" role="group" aria-label="Script selector" data-toggle="buttons">
+	    <label class="btn btn-secondary">
+	      <input type="radio" name="script" value="iso">a</input>
+	    </label>
+	    <label class="btn btn-secondary">
+	      <input type="radio" name="script" value="kannada">ಅ</input>
+	    </label>
+	  </div>
+	</div> !-->
+      </div><!-- navbar-collapse !-->
+    </nav>
+
+
     <div class="container">
 
+      <div class="row d-flex justify-content-center text-center">
+	<div class="mt-5 mb-3 kannada-heading pica">
+	  <h2>The Way of the Poet-King</h2>
+	  <h2 class="kan-Kann mt-3">ಕವಿರಾಜಮಾರ್ಗಂ</h2>
+	  <span class="separator separator-block mt-4 mb-3">E</span>
+	  <p class="courseinfo mt-0">
+	    andrew ollett  
+	    <span class="separator separator-inline">⁕</span>
+	    sarah pierce taylor
+	  </p>
+	</div>
+      </div>
+
       <div class="row">
-	<div class="col-sm-12">
-	  <div class="index-container">
-	    <div class="text-center heading">
-	      <h1>The Way of the Poet-King</h1>
-	      <p><i>~ or ~</i></p>
-	      <h1 class="kan-Kann">ಕವಿರಾಜಮಾರ್ಗಂ</h1>
+	<div class="col">
+	  <div class="d-flex justify-content-center my-4">
+	    <div class="text-center">
+	      <img src="https://www.neh.gov/files/neh_logo_horizontal_rgb.jpg"/>
+	      <p><small>This project is supported by a <br/><a href="https://securegrants.neh.gov/publicquery/main.aspx?f=1&gn=RQ-255779-17">NEH Scholarly Editions and Translations Grant</a>.</small></p>
 	    </div>
+	  </div>
 
-	    <p class="cover-text">This is the index page for our ongoing edition and translation of Śrīvijaya’s <i>Way of the Poet-King</i> (<i>Kavirājamārgaṁ</i>). Below you will find a <a href="#krm-index-header">table of contents</a> and a <a href="#progress-header">progress update</a>.</p>
 
-	    <p id="excuse-me" class="text-center text-warning">Please wait while the data loads.</p>
+	    <p class="cover-text">This page presents our ongoing work on a critical edition and translation of the <i>Way of the Poet-King</i> (<i>Kavirājamārgaṁ</i>), a ninth-century manual of poetics, and the earliest Kannada text to survive in manuscript form. Below you will find a <a href="#krm-index-header">table of contents</a> and a <a href="#progress-header">progress update</a>.</p>
 	    
 	    <div class="card">
-	      <div class="card-header" data-toggle="collapse" data-target="#krm-index-card" aria-expanded="true" id="krm-index-header">
-		Table of Contents
+	      <div class="card-header d-flex justify-content-between align-items-center" id="krm-index-header">
+		<a href="javascript:void();" class="toggler" data-toggle="collapse" data-target="#krm-index-card" aria-expanded="true">Table of Contents</a>
+		<div class="form-check form-check-inline">
+		  <input class="form-check-input" type="checkbox" value="" id="onlyedited" checked>
+		  <label class="form-check-label p-0" for="onlyedited">
+		    Only edited verses
+		  </label>
+		</div>
 	      </div>
 	      <div class="card-block collapse show" id="krm-index-card">
-		<table class="table table-hover" id="krm-index">
-		  <thead class="thead-default">
-		    <tr>
- 		      <th>Chapter and Verse</th>
-		      <th>Ms. A</th>
-		      <th>Ms. B</th>
-		      <th>Ms. C</th>
-		      <th>Edition</th>
-		      <th>Apparatus</th>
-		      <th>Translation</th>
-		      <th>Notes</th>
-		    </tr>
-		  </thead>
-		  <tbody id="krm-index-body">
-		  </tbody>
-		</table>
+		<div id="krm-index">
+		</div>
 	      </div>
 	    </div>
 
 	    <div class="card">
-	      <div class="card-header" data-toggle="collapse" data-target="#progress-card" aria-expanded="true" id="progress-header">
-		Progress
+	      <div class="card-header">
+		<a href="javascript:void();" class="toggler" data-toggle="collapse" data-target="#progress-card" aria-expanded="true">Progress</a>
 	      </div>
 	      <div class="card-block collapse show" id="progress-card">
 		<div class="progress-block">
@@ -75,16 +121,8 @@
 		  <div class="progress" id="progress-ed"></div>
 		</div>
 		<div class="progress-block">
-		  <h3>Apparatus</h3>
-		  <div class="progress" id="progress-app"></div>
-		</div>
-		<div class="progress-block">
 		  <h3>Translation</h3>
 		  <div class="progress" id="progress-tr"></div>
-		</div>
-		<div class="progress-block">
-		  <h3>Notes</h3>
-		  <div class="progress" id="progress-notes"></div>
 		</div>
 	      </div>
 	    </div>
@@ -106,17 +144,16 @@
 	</svg>
       </div>
       <div class="text-right footer">
-	<a href="https://www.neh.gov">
-	  <img src="https://www.neh.gov/files/neh_logo_horizontal_rgb.jpg"/>
-	</a>
+
       </div>
       
     </div><!-- container !-->
 
-    <script src="http://prakrit.info/scripts/tether.min.js"></script>
-    <script src="http://prakrit.info/scripts/jquery-3.2.1.min.js"></script>
-    <script src="http://prakrit.info/scripts/bootstrap.min.js"></script>
-    <script src="http://prakrit.info/scripts/sanscript.js"/></script> 
+    <script src="../scripts/jquery-3.2.1.min.js"></script>
+    <script src="../scripts/popper.min.js"></script>
+    <script src="../scripts/tether.min.js"></script>
+    <script src="../scripts/bootstrap.min.js"></script>
+    <script src="../sanscript.js"/></script> 
     <script src="scripts/krm.js"></script>
 </body>
 </html>

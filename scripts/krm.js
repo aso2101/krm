@@ -6,125 +6,128 @@ var verse = '',
     msc = "xml/ms_c.xml";
 
 function initialize() {
-    chapter = getUrlParameter('c');
-    verse = getUrlParameter('v');
+    var chapter = getUrlParameter('c'),
+	verse = getUrlParameter('v'),
+	dfd = $.Deferred();
     load_edition(chapter,verse);
     load_translation(chapter,verse);
     load_apparatus(chapter,verse);
     load_manuscripts(chapter,verse,'a');
     load_manuscripts(chapter,verse,'b');
     load_manuscripts(chapter,verse,'c');
+    setTimeout(function() {
+	loadConspectus();
+	$('[data-toggle="tooltip"]').tooltip();
+    },500);
 };
 
 function toc() {
-    for (chapter = 1; chapter < 4; chapter++) {
-	if (chapter == 1) {
-	    for (verse = 1; verse < 150; verse++) {
-		createRow(chapter,verse);
-	    }
-	} else if (chapter == 2) {
-	    for (verse = 1; verse < 156; verse++) {
-		createRow(chapter,verse);
-	    }
-	} else if (chapter == 3) {
-	    for (verse = 1; verse < 232; verse++) {
-		createRow(chapter,verse);
-	    }
-	}
-    }
     $.when($.get(msa),$.get(msb),$.get(msc),$.get(edition),$.get(translation)).done(function(a,b,c,ed,tr) {
-	var totalverses = $("tr[id]").length,
-	    atotal = 0,
+	var container = $("<div class='toc-columns mx-2 my-2'></div>"),
+	    chapters = 3,
+	    verses = [ 149, 155, 231 ],
+	    atotal = 0, 
 	    btotal = 0,
 	    ctotal = 0,
 	    edtotal = 0,
-	    apptotal = 0,
 	    trtotal = 0,
-	    notetotal = 0;
-	$("tr[id]").each(function() {
-	    var id = $(this).attr("id"),
-		ch = id.split('-')[0],
-		v = id.split('-')[1].split('-')[0],
-		aEl = $(a).find("div[n='"+ch+"']").find("lg[n='"+v+"'],trailer[n='"+v+"']"),
-		bEl = $(b).find("div[n='"+ch+"']").find("lg[n='"+v+"'],trailer[n='"+v+"']"),	    
-		cEl = $(c).find("div[n='"+ch+"']").find("lg[n='"+v+"'],trailer[n='"+v+"']"),
-		edEl = $(ed).find("div[n='"+ch+"']").find("lg[n='"+v+"'],trailer[n='"+v+"']"),
-		appEl = edEl.find("note[type='apparatus']"),
-		trEl = $(tr).find("div[n='"+ch+"']").find("lg[n='"+v+"'],trailer[n='"+v+"']"),
-		noteEl = trEl.find("note"),
-		livelink = $("<a href='view.html?c="+ch+"&v="+v+"'>"+ch+"."+v+"</a>"),
-		deadlink = $("<span class='text-muted'>"+ch+"."+v+"</span>"),
-		linktd = $("tr[id='"+id+"']").find("td[id='"+id+"-label']");
-	    linktd.html(deadlink);
-	    if (aEl.length !== 0) {
-		$("tr[id='"+id+"']").find("td[id='"+id+"-msa']").append("<b>✓</b>");
-		atotal++;
-		linktd.html(livelink);
-	    } else { 
-		$("tr[id='"+id+"']").find("td[id='"+id+"-msa']").append("<span class='text-muted'>—</span>");
+	    totalverses = 0,
+	    verse, chapter;
+	for (chapter = 1; chapter < 4; chapter++) {
+	    var chaptercontainer = $("<div class='chapter'></div>"),
+		list = $("<ul class='list-unstyled'></ul>");
+	    chaptercontainer.append("<h4 class='ml-1'>Chapter "+chapter.toString()+"</h4>");
+	    for (verse = 1; verse <= verses[chapter-1]; verse++) {
+		var link = $("<span class='text-muted'>"+verse.toString()+"</span>"),
+		    li = $("<li class='unedited' style='display:none;'></li>"),
+		    left = $("<span class='leftside'></span>");
+		    edition = $(ed).find("div[n='"+chapter.toString()+"']").find("*[n='"+verse.toString()+"']");
+		if (edition.length) {
+		    var manuscripta = $(ed).find("div[n='"+chapter.toString()+"']").find("*[n='"+verse.toString()+"']"),
+			manuscriptb = $(ed).find("div[n='"+chapter.toString()+"']").find("*[n='"+verse.toString()+"']"),
+			manuscriptc = $(ed).find("div[n='"+chapter.toString()+"']").find("*[n='"+verse.toString()+"']"),
+			translation = $(ed).find("div[n='"+chapter.toString()+"']").find("*[n='"+verse.toString()+"']"),
+			excerpt = edition.find("l").first();
+		    if (manuscripta.length) {
+			atotal++;
+			left.append("<span>a</span>");
+		    }
+		    if (manuscriptb.length) {
+			btotal++;
+			left.append("<span>b</span>");
+		    }
+		    if (manuscriptc.length) {
+			ctotal++;
+			left.append("<span>c</span>");
+		    }
+		    if (translation.length) {
+			trtotal++;
+			left.append("<span>tr</span>");
+		    }
+		    if (excerpt.length) {
+			li.append("<span class='excerpt float-right'>"+excerpt.prop('innerHTML')+"</span>");
+		    }
+		    link = $("<a href='view.html?c="+chapter+"&v="+verse+"'>"+verse+"</a>");
+		    edtotal++;
+		    li.removeClass('unedited');
+		    li.addClass('edited d-flex justify-content-between');
+		}
+		left.prepend(link);
+		li.prepend(left);
+		list.append(li);
+		totalverses++;
 	    }
-	    if (bEl.length !== 0) {
-		$("tr[id='"+id+"']").find("td[id='"+id+"-msb']").append("<b>✓</b>");
-		btotal++;
-		linktd.html(livelink);
-	    } else { 
-		$("tr[id='"+id+"']").find("td[id='"+id+"-msb']").append("<span class='text-muted'>—</span>");
-	    }
-	    if (cEl.length !== 0) {
-		$("tr[id='"+id+"']").find("td[id='"+id+"-msc']").append("<b>✓</b>");
-		ctotal++;
-		linktd.html(livelink);
-	    } else { 
-		$("tr[id='"+id+"']").find("td[id='"+id+"-msc']").append("<span class='text-muted'>—</span>");
-	    }
-	    if (edEl.length !== 0) {
-		$("tr[id='"+id+"']").find("td[id='"+id+"-ed']").append("<b>✓</b>");
-		edtotal++;
-		linktd.html(livelink);
-	    } else { 
-		$("tr[id='"+id+"']").find("td[id='"+id+"-ed']").append("<span class='text-muted'>—</span>");
-	    }
-	    if (appEl.length !== 0) {
-		$("tr[id='"+id+"']").find("td[id='"+id+"-app']").append("<b>✓</b>");
-		apptotal++;
-		linktd.html(livelink);
-
-	    } else { 
-		$("tr[id='"+id+"']").find("td[id='"+id+"-app']").append("<span class='text-muted'>—</span>");
-	    }
-	    if (trEl.length !== 0) {
-		$("tr[id='"+id+"']").find("td[id='"+id+"-tr']").append("<b>✓</b>");
-		trtotal++;
-		linktd.html(livelink);
-	    } else { 
-		$("tr[id='"+id+"']").find("td[id='"+id+"-tr']").append("<span class='text-muted'>—</span>");
-	    }
-	    if (noteEl.length !== 0) {
-		$("tr[id='"+id+"']").find("td[id='"+id+"-notes']").append("<b>✓</b>");
-		notetotal++;
-		linktd.html(livelink);
-	    } else { 
-		$("tr[id='"+id+"']").find("td[id='"+id+"-notes']").append("<span class='text-muted'>—</span>");
-	    }
-	    /* give the progress */
-	});
+	    chaptercontainer.append(list);
+	    container.append(chaptercontainer);
+	    /*
+	    $(document).on("mouseenter",".edited", function() {
+		$(this).find(".excerpt").show();
+		console.log('triggered');
+	    });
+	    $(document).on("mouseleave",".edited", function() {
+		$(this).find(".excerpt").hide();
+	    });
+	    */
+	}
+	$("#krm-index").append(container);
 	var aprogress = percentageBar(atotal,totalverses),
 	    bprogress = percentageBar(btotal,totalverses),
 	    cprogress = percentageBar(ctotal,totalverses),
 	    edprogress = percentageBar(edtotal,totalverses),
-	    appprogress = percentageBar(apptotal,totalverses),
-	    trprogress = percentageBar(trtotal,totalverses),
-	    noteprogress = percentageBar(notetotal,totalverses);
+	    trprogress = percentageBar(trtotal,totalverses);
 	$("#progress-a").append(aprogress);
 	$("#progress-b").append(bprogress);
 	$("#progress-c").append(cprogress);
 	$("#progress-ed").append(edprogress);
-	$("#progress-app").append(appprogress);
 	$("#progress-tr").append(trprogress);
-	$("#progress-notes").append(noteprogress);
+	console.log(atotal,btotal,ctotal);
+	$("#onlyedited").change(function() {
+	    var unedited = $(".unedited");
+	    if (this.checked) {
+		unedited.hide();
+		console.log(unedited);
+	    } else { unedited.show(); }
+	});
+	$(".edited").on('click', function() {
+	    var link = $(this).find("a[href]").attr('href');
+	    window.location.href = link;
+	});
     });
-    $("#excuse-me").delay(2000).queue(function() { 
-	$(this).remove(); 
+};
+
+function filterTerms() {
+    var $input = $("input[name='searchterm']"),
+	$context = $("li");
+    $input.on("input", function() {
+	var term = $(this).val();
+	$context.show().unmark();
+	if (term) {
+	    $context.mark(term, {
+		done: function() {
+		    $context.not(":has('mark')").hide();
+		}
+	    });
+	}
     });
 };
 
@@ -158,11 +161,11 @@ function load_edition(chapter,verse) {
 	var prev = $(thisVerseTranslit).prev("lg,trailer").attr("n");
 	var next = $(thisVerseTranslit).next("lg,trailer").attr("n");
 	if (prev != null) {
-	    var q = $('<a class="btn btn-primary btn-sm" href="view.html?c='+chapter+'&v='+prev+'" role="button"><span class="fa fa-chevron-left" style="font-size:18px;vertical-align:middle;line-height:1.5em;"></span><br/><span class="nav-label">'+prev+'</span></a></div>');
+	    var q = $('<a class="btn btn-primary btn-sm" href="view.html?c='+chapter+'&v='+prev+'" role="button"><span class="fas fa-chevron-left" style="font-size:18px;vertical-align:middle;line-height:1.5em;"></span><br/><span class="nav-label">'+prev+'</span></a></div>');
 	    $("#back-nav").append(q);
 	}
 	if (next != null) {
-	    var q = $('<a class="btn btn-primary btn-sm" href="view.html?c='+chapter+'&v='+next+'" role="button"><span class="fa fa-chevron-right" style="font-size:18px;vertical-align:middle;line-height:1.5em;"></span><br/><span class="nav-label">'+next+'</span></a></div>');
+	    var q = $('<a class="btn btn-primary btn-sm" href="view.html?c='+chapter+'&v='+next+'" role="button"><span class="fas fa-chevron-right" style="font-size:18px;vertical-align:middle;line-height:1.5em;"></span><br/><span class="nav-label">'+next+'</span></a></div>');
 	    $("#forward-nav").append(q);
 	}
 	/* other data: verse number */
@@ -183,10 +186,16 @@ function load_apparatus(chapter,verse) {
     var xml = 'xml/edition-i.xml',
 	xslt = 'xsl/apparatus.xsl';
     $.when($.get(xml),$.get(xslt)).done(function(q,r) {
-	var apparatus = $(q).find("div[n='"+chapter+"']").find("lg[n='"+verse+"']").find("note[type='apparatus']");
+	var thisverse = $(q).find("div[n='"+chapter+"']").find("lg[n='"+verse+"']"),
+	    apparatus = thisverse.find("note[type='apparatus']"),
+	    parallels = thisverse.find("note[type='parallels']");
 	if (apparatus.length !== 0) {
-	    content = transformXSLT(apparatus[0],r[0]);
+	    var content = transformXSLT(apparatus[0],r[0]);
 	    $('#apparatus').append(content);
+	}
+	if (parallels.length !== 0) {
+	    var pars = transformXSLT(parallels[0],r[0]);
+	    $("#parallels").append(pars);
 	}
     });
 }
@@ -206,7 +215,6 @@ function load_manuscripts(chapter,verse,wit) {
 	logical = 'xsl/edition.xsl',
 	physical = 'xsl/ms_physical.xsl';
     $.when($.get(a),$.get(logical),$.get(physical)).done(function(a,logical,physical) {
-	console.log("trying "+chapter+"."+verse+", witness "+wit);
 	var thisVerse = $(a).find("div[n='"+chapter+"']").find("lg[n='"+verse+"'],trailer");
 	// if the manuscript does transmit the section of text
 	if ($(thisVerse).find("l").length) {
@@ -275,6 +283,54 @@ function load_manuscripts(chapter,verse,wit) {
 	}
     });
 };
+
+function loadConspectus(chapter,verse) {
+    var a = $("#ms-a-logical-content").contents().clone(),
+	b = $("#ms-b-logical-content").contents().clone(),
+	c = $("#ms-c-logical-content").contents().clone();
+    for (i = 0; i < 4; i++) {
+	var row = $("<div class='row mb-2'></div>"),
+	    col = $("<div class='col mx-4'></div>"),
+	    num = i+1,
+	    head = $("<h5 style='display:block;' class='m-0'>Line "+num.toString()+"</h5>");
+	var atext = a.find(".l:nth-child("+num+")"),
+	    btext = b.find(".l:nth-child("+num+")"),
+	    ctext = c.find(".l:nth-child("+num+")");
+	atext.add(btext).add(ctext)
+	    .find(".lineation, .foliation, .label-line-number, .del, .binding-hole").remove();
+	var aline = parLine(atext.html(),'A',num),
+	    bline = parLine(btext.html(),'B',num),
+	    cline = parLine(ctext.html(),'C',num);
+	col.append(head).append(aline).append(bline).append(cline);
+	var abdiff = diffLine('A','B',atext.text(),btext.text()),
+	    bcdiff = diffLine('B','C',btext.text(),ctext.text()),
+	    acdiff = diffLine('A','C',atext.text(),ctext.text());
+	col.append(abdiff).append(bcdiff).append(acdiff);
+	row.append(col);
+	$("#conspectus").append(row);
+    }
+    $("#conspectus").prepend("<p class='mt-4'>This conspectus is for consultation purposes only: scribal insertions and deletions, as well as lineation and foliation, have been filtered out for the sake of visibility.</p>");
+};
+
+function parLine(text,label,num) {
+    var par = $("<p class='mb-0'></p>");
+    return par.append("<b>"+label+":</b> ")
+	        .append("<span>"+text+"</span>");
+}
+
+function diffLine(label1,label2,string1,string2) {
+    var diff = JsDiff.diffChars(string1,string2),
+	par = $("<p class='mb-0 ml-1'></p>");
+    par.append("<b>diff "+label1+" & "+label2+":</b> ");
+    diff.forEach(function(part) {
+	var color = part.added ? 'rgba(0,255,0,0.3)' :
+		part.removed ? 'rgba(255,0,0,0.3)' : 'rgba(0,0,0,0)',
+	    span = $("<span></span>").css('background-color',color);
+	span.append(part.value);
+	par.append(span);
+    });
+    return par;
+}
 
 /* gets the given parameter from the url */
 function getUrlParameter(sParam) {

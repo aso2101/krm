@@ -3,7 +3,7 @@ body {
   font-family:"IndUni-H";
 }
 .kan-Kann {
-  font-family:"Lohit Kannada";
+  font-family:"Murty Kannada";
   line-height:1em;
 }
 .apparatus h4 {
@@ -11,6 +11,19 @@ body {
 }
 .apparatus p {
   font-size:0.85em;
+}
+.quotation-string:after {
+    content:". ";
+}
+.quotation-type {
+    font-style:italic;
+    color:#990099;
+}
+.quotation-biblio:before {
+    content:"(";
+}
+.quotation-biblio:after {
+    content:")";
 }
 .translation h4 {
   margin-top:15px;
@@ -142,6 +155,13 @@ body {
 .rdg .rdg-text {
   color:green;
 }
+.app-tooltip,
+.app-tooltip:hover {
+    text-decoration:none!important;
+}
+.siglum-ed {
+    color:#6a00ff;
+}
 
 /* For the info page (index.html) */
 .index-container {
@@ -163,10 +183,71 @@ body {
 }
 .heading h1 {
   font-weight:bold;
-  -webkit-filter: drop-shadow(12px 12px 25px rgba(0,0,0,0.5));
+  -webkit-filter: drop-shadow(6px 6px 12px rgba(0,0,0,0.5));
   filter: url(#drop-shadow);
   -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
   filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
+}
+.toc-columns {
+    column-count:3;
+    column-gap:15px;
+    column-rule:1px solid rgba(0,0,0,0.2);
+}
+.toggler {
+    vertical-align:bottom;
+}
+.toggler:hover {
+    text-decoration:none;
+}
+.toc-columns li {
+    padding-left:1rem;
+-webkit-column-break-inside: avoid;
+          page-break-inside: avoid;
+               break-inside: avoid;
+}
+.edited {
+    position:relative;
+    cursor:pointer;
+}
+.excerpt {
+    color:rgba(0,0,0,0.4);
+    max-width:75%!important;
+    white-space:nowrap;
+    position:relative;
+    z-index:40;
+    overflow:hidden;
+}
+.leftside {
+    position:relative;
+}
+.leftside a, .leftside span {
+    z-index:60;
+    position:relative;
+}
+.edited .leftside a {
+    margin-right:0.5rem;
+}
+.edited .leftside span {
+    font-size:70%;
+    text-transform:uppercase;
+}
+.edited .leftside span:before {
+    content:"\00a0";
+}
+.leftside:before {
+    content:'';
+    display:block;
+    z-index:50;
+    top:0;
+    left:0;
+    height:1.5rem!important;
+    width:18rem!important;
+    position:absolute;
+    background:linear-gradient(to right, white 6rem, transparent);
+}
+
+.edited:hover .excerpt {
+    color:rgba(0,0,0,0.5);
 }
 .progress-block {
   margin:20px;
@@ -177,12 +258,76 @@ body {
 .progress-block > .progress-block:after {
   border-bottom:1px solid black;
 }
-.card-header {
-  cursor:pointer;
-}
 .card {
   margin-bottom:20px;
 }
 .footer {
   margin-bottom:20px!important;
+}
+
+/* navbar styling */
+/* navbar  styling */
+#navbar {
+  background-color:rgba(215,215,215,0.5)!important;
+  box-shadow: 0 5px 18px rgba(0,0,0,0.3);
+}
+#brand:hover {
+  opacity:0.8;
+}
+#vTitle {
+    padding-left:14px;
+}
+.container { padding-top:2rem; }
+.printorn {
+    font-family: "Printers Ornaments";
+    text-align:center;
+    width:100px;
+    margin:0 auto;
+    padding:20px 0;
+    clear:both;
+    font-size:200%;
+}
+.big-fleuron {
+  color:rgba(0,0,0,0.5);
+  font-size:200%;
+  font-family:"Printers Ornaments One";
+  padding:1rem;
+}
+.border-bottom {
+    border-bottom: 1px solid #dee2e6!important;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgb(222, 226, 230);
+}
+/* other fonts */
+.pica {
+    font-family:"IM FELL DW Pica";
+}
+.kannada-heading {
+    border-bottom: 3px double #dee2e6!important;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgb(222, 226, 230);
+    padding:0 1rem;
+    margin-top:2rem;
+}
+.kannada-heading .courseinfo {
+    font-family:"EB Garamond";
+    font-variant:small-caps;
+    font-size:1.25rem;
+}
+.kannada-heading .kan-Kann {
+    font-size:2rem;
+}
+.kannada-heading .separator {
+    font-family: "Printers Ornaments";
+}
+.separator-block {
+    display:block;
+    margin:1rem 0 0.5rem 0;
+}
+.separator-inline {
+    vertical-align:middle;
+    margin:0 0.5rem;
+    font-size:90%;
 }

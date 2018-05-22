@@ -19,11 +19,26 @@
       <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>
+  <xsl:template match="tei:item">
+    <xsl:element name="li">
+      <xsl:apply-templates/>
+    </xsl:element>
+  </xsl:template>
   <xsl:template match="tei:l">
     <xsl:element name="span">
       <xsl:attribute name="class">
 	<xsl:text>tr-l</xsl:text>
       </xsl:attribute>
+      <xsl:apply-templates/>
+    </xsl:element>
+  </xsl:template>
+  <xsl:template match="tei:list[not(./@type='ordered')]">
+    <xsl:element name="ul">
+      <xsl:apply-templates/>
+    </xsl:element>
+  </xsl:template>
+  <xsl:template match="tei:list[@type='ordered']">
+    <xsl:element name="ol">
       <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>

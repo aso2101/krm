@@ -1,0 +1,70 @@
+/* Fonts */
+body {
+  font-family:"IndUni-H";
+}
+a:hover {
+  text-decoration:none;
+}
+h1 {
+  padding-top:10px;
+}
+.gl {
+  columns: 3;
+  -webkit-columns: 3;
+  -moz-columns: 3;
+  column-rule-style:solid;
+  column-rule-width:1px;
+  column-rule-color:rgba(0,32,128,1)!important;
+  list-style:none;
+}
+.gl li {
+  page-break-inside: avoid; /* For Firefox. */
+  -webkit-column-break-inside: avoid; /* For Chrome & friends. */
+  break-inside: avoid; /* For standard browsers like IE. :-) */
+}
+.gl-lemma .super {
+  font-size: 70%;
+  vertical-align: top;
+  color:#16128F;
+}
+.gl li ul {
+  list-style:none;
+  margin-left:25px;
+}
+.gl li ul li i {
+  padding-top:6px;
+  font-size:50%;
+}
+.gl-lemma {
+  color:rgba(0,0,0,1)!important; /*black*/
+}
+.gl-def {
+  color:rgba(64, 128, 0,1)!important;
+}
+.gl-kittel:before { content:"\00a0"; }
+.gl-form,.gl-ana,.gl-ref {
+  color:rgba(0,0,0,0.6)!important;
+}
+.gl-ana:before {content:"\00a0[";}
+.gl-ana:after {content:"]";}
+.gl-tag { color:rgba(0,32,128,0.7)!important;}
+.gl-ref:before {content:"\00a0(";}
+.gl-ref:after {content:")";}
+
+.interpgrp {
+  list-style:none;
+  columns: 3;
+  -webkit-columns: 3;
+  -moz-columns: 3;
+  column-rule-style:solid;
+  column-rule-width:1px;
+  column-rule-color:rgba(0,32,128,1)!important;
+}
+.intergrp li {
+  page-break-inside: avoid; /* For Firefox. */
+  -webkit-column-break-inside: avoid; /* For Chrome & friends. */
+  break-inside: avoid; /* For standard browsers like IE. :-) */
+}
+.interp-abbrev {
+  font-weight:bold;
+}

@@ -12,6 +12,7 @@
       version="4.0"/>
   <xsl:strip-space elements="tei:*"/>
 
+  <!-- ADD !-->
   <xsl:template match="tei:add">
     <xsl:element name="span">
       <xsl:attribute name="class">
@@ -24,18 +25,24 @@
       <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>
+
+  <!-- DEL !-->
   <xsl:template match="tei:del">
     <xsl:element name="span">
       <xsl:attribute name="class">del</xsl:attribute>
       <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>
+
+  <!-- LABEL !-->
   <xsl:template match="tei:label[@type='line-number']">
     <xsl:element name="span">
       <xsl:attribute name="class">label-line-number</xsl:attribute>
       <xsl:apply-templates/>
     </xsl:element>
   </xsl:template>
+
+  <!-- LB !-->
   <xsl:template match="tei:lb[not(parent::tei:add)]">
     <xsl:element name="br"/>
     <xsl:element name="span">
