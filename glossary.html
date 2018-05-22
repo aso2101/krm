@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>The Way of the Poet-King: Glossary</title>
+    <meta charset="utf-8">
+    <meta name="viewport" 
+	  content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fonts-kannada.css">
+    <link rel="stylesheet" href="css/glossary.css"/>
+    <link rel="stylesheet" href="css/krm.css"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light" id="navbar">
+      <a class="navbar-brand" href="index.html">
+        <img src="../images/paautti.svg"
+	     onerror="this.src='../images/paautti.png'"
+	     width="100px"
+	     alt="prakrit"
+	     id="brand"/>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+	<span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+	<ul class="navbar-nav">
+	  <li class="nav-item">
+	    <a class="nav-link" href="index.html" id="homelink">Contents</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="javascript:void();" id="homelink">Edition</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link active" href="glossary.html" id="glossarylink">Glossary</a>
+	  </li>
+	</ul>
+	<span class="navbar-text" id="vTitle"></span>
+	<div class="form-inline ml-auto">
+	  <div class="btn-group btn-group-sm ml-auto" role="group" aria-label="Script selector" data-toggle="buttons">
+	    <label class="btn btn-secondary">
+	      <input type="radio" name="script" value="iso">a</input>
+	    </label>
+	    <label class="btn btn-secondary">
+	      <input type="radio" name="script" value="kannada">ಅ</input>
+	    </label>
+	  </div>
+	</div>
+      </div>
+    </nav>
+
+    <div class="container">
+      
+      <div id="glossary">
+	<p>glossary should be inserted here</p>
+      </div>
+
+    </div><!-- container !-->
+    <script src="../scripts/jquery-3.2.1.min.js"></script> 
+    <script src="../scripts/tether.min.js"></script>
+    <script src="../scripts/popper.min.js"></script>
+    <script src="../scripts/bootstrap.min.js"></script>
+    <script src="../scripts/jquery.mark.min.js"></script>
+    <script src="../scripts/sanscript.js"></script>
+    <script src="scripts/krm.js"></script>
+    <script src="scripts/script.js"></script>
+    <script src="https://use.fontawesome.com/bb8694d3d7.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  setScript();
+  $('#glossary').load('ajax/lemmas.html', function() {
+    $('.gl-tag').popover();
+    var sortOrder = [ 'a', 'ā', 'i', 'ī', 'u', 'ū', 'r̥', 'e', 'ē', 'ai', 'o', 'ō', 'au', 'k', 'kh', 'g', 'gh', 'ṅ', 'c', 'ch', 'j', 'jh', 'ñ', 'ṭ', 'ṭh', 'ḍ', 'ḍh', 'ṇ', 't', 'th', 'd', 'dh', 'n', 'p', 'ph', 'b', 'bh', 'm', 'y', 'r', 'ṟ', 'l', 'v', 'ś', 'ṣ', 's', 'h', 'ḷ', 'ḻ' ],
+        ul = $('.gl'),
+        li = ul.children('li');
+    li.detach().sort(function(a,b) {
+      var ac = $(a).children('.gl-lemma').attr('id').charAt(0),
+          bc = $(b).children('.gl-lemma').attr('id').charAt(0);
+      return sortOrder.indexOf(ac) - sortOrder.indexOf(bc);
+    });
+    ul.append(li);
+    $.getJSON('ajax/glossary.json', function(data) {
+      $.each(data, function(lemma,entry) {
+        var lemelement = $(document).find('.gl-lemma#'+lemma),
+            defelement = lemelement.next('.gl-def'),
+            dicelement = defelement.next('.gl-kittel');
+            comelement = dicelement.next('.gl-comment');
+        // insert the lemma 
+        lemelement.append(entry[0]);
+        if (entry[1] != '') {
+          defelement.append(' = '+entry[1]);
+        }
+        if (entry[2] != '') {
+          dicelement.append('<a href="http://dsalsrv02.uchicago.edu/cgi-bin/philologic/getobject.pl?'+entry[2]+'">[Kittel]</a>');
+        }
+        if (entry[3] != '') {
+          comelement.append(entry[3]);
+        }
+      });
+    });
+  });
+  setTimeout(function() {
+    translit();
+    filterTerms();
+  }, 50);
+});
+</script>
+</script>
+</body>
+</html>
